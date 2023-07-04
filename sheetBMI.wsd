@@ -1,0 +1,12 @@
+@startuml
+class BMI{
+    -height String 
+    -weight String   
+    +BMI get_height(height)
+    +BMI get_weight(weight)
+    +BMI get_BMI(BMI) 
+    +BMI calculateBMI()
+    +BMI BMI()
+}
+
+@enduml
