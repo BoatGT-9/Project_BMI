@@ -1,107 +1,50 @@
 <?php
-class BMI
-{
-    private $height;
-    private $weight;
-    private $BMI;
+include 'BMI.php';
+include 'BMIShape.php';
 
-    function __construct($height, $weight)
-    {
-        $this->height = $height;
-        $this->weight = $weight;
-        $this->calculateBMI();
-    }
-
-    function get_height()
-    {
-        return $this->height;
-    }
-
-    function get_weight()
-    {
-        return $this->weight;
-    }
-
-    function get_BMI()
-    {
-        return $this->BMI;
-    }
-
-    function calculateBMI()
-    {
-        // แปลงความสูงจากเซนติเมตรเป็นเมตร
-        $heightInMeter = $this->height / 100;
-
-        // คำนวณค่า BMI
-        $this->BMI = $this->weight / ($heightInMeter * $heightInMeter);
-
-        // ปัดเศษทศนิยมเป็นทศนิยมที่สองตำแหน่ง
-        $this->BMI = number_format($this->BMI, 2);
-    }
-    public function BMI()
-    {
-        if ($this->BMI >= 18.5 && $this->BMI() <= 24.9) {
-            return true
-            ;
-        } else {
-            return false;
-        }
-    }
-}
-
-// ตรวจสอบว่ามีการส่งค่าจากฟอร์มหรือไม่
+// ตรวจสอบการส่งค่าผ่านฟอร์ม
 if (isset($_POST['Submit'])) {
     $height = $_POST['height']; // ส่วนสูง (เซนติเมตร)
     $weight = $_POST['weight']; // น้ำหนัก (กิโลกรัม)
 
-    $bmiObj = new BMI($height, $weight);
-    $BMIValue = $bmiObj->get_BMI();
+    $bmiCalculator = new BMI();
+    $bmiCalculator->setHeight($height);
+    $bmiCalculator->setWeight($weight);
+    $bmiValue = $bmiCalculator->calculateBMI();
 
+    $shapeClassifier = new BMIShape();
+    $shape = $shapeClassifier->getShape($bmiValue);
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMI</title>
+    <title>BMI Calculator</title>
     <link href="style.css" rel="stylesheet">
-
 </head>
 
 <body>
-    <form action="BMI" method="POST">
-
-        <div class="head">
+    
+        <form action="index.php" method="POST">
             <h2>คำนวณดัชนีมวลกาย BMI</h2>
-        </div>
-        <div class="form-group">
-            <input type="text" placeholder="น้ำหนัก(KG.)" name="weight">
-            <br>
-            <input type="text" placeholder="ส่วนสูง(CM.)" name="height">
-        </div>
-        <input class="Submit" type="Submit" name="Submit" value="กดเล้ยย!!!" style="color:white">
-        <div class="card">
+            <input type="text" placeholder="ส่วนสูง (เซนติเมตร)" name="height" required>
+            <input type="text" placeholder="น้ำหนัก (กิโลกรัม)" name="weight" required>
+            <input type="submit" name="Submit" value="คำนวณ">
             <?php
-            if (isset($BMIValue)) {
-                echo "<p>น้ำหนัก: {$weight} KG</p>";
-                echo "<p>ส่วนสูง: {$height} CM</p>";
-                echo "<p>BMI: {$BMIValue}</p>";
-                // แสดงรูปร่างของบุคคลอย่างหนึ่ง ซึ่งอ้างอิงจากค่า BMI
-                if ($BMIValue < 18.5) {
-                    echo "<p>รูปร่าง: ผอม</p>";
-                } elseif ($BMIValue >= 18.5 && $BMIValue < 25) {
-                    echo "<p>รูปร่าง: ปกติ</p>";
-                } elseif ($BMIValue >= 25 && $BMIValue < 30) {
-                    echo "<p>รูปร่าง: ท้วม</p>";
-                } else {
-                    echo "<p>รูปร่าง: อ้วน</p>";
-                }
+            if (isset($bmiValue) && isset($shape)) {
+                echo "<h3>ผลลัพธ์:</h3>";
+                echo "<p>ค่า BMI ของคุณคือ: " . $bmiValue . "</p>";
+                echo "<p>รูปร่างของคุณคือ: " . $shape . "</p>";
             }
             ?>
-        </div>
-    </form>
+        </form>    
+
+
+    
 </body>
 
 </html>
