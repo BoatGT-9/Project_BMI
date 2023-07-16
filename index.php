@@ -56,7 +56,7 @@ if (isset($_POST['Submit'])) {
 
     $bmiObj = new BMI($height, $weight);
     $BMIValue = $bmiObj->get_BMI();
-   
+
 }
 ?>
 <!DOCTYPE html>
@@ -87,19 +87,19 @@ if (isset($_POST['Submit'])) {
             if (isset($BMIValue)) {
                 echo "<p>น้ำหนัก: {$weight} KG</p>";
                 echo "<p>ส่วนสูง: {$height} CM</p>";
-                echo "<p>BMI: {$BMIValue}</p>";   
-    // แสดงรูปร่างของบุคคลอย่างหนึ่ง ซึ่งอ้างอิงจากค่า BMI
-                 if ($BMIValue < 18.5) {
-        echo "<p>รูปร่าง: ผอม</p>";
-    } elseif ($BMIValue >= 18.5 && $BMIValue < 25) {
-        echo "<p>รูปร่าง: ปกติ</p>";
-    } elseif ($BMIValue >= 25 && $BMIValue < 30) {
-        echo "<p>รูปร่าง: ท้วม</p>";
-    } else {
-        echo "<p>รูปร่าง: อ้วน</p>";
-    }
-}
-?>
+                echo "<p>BMI: {$BMIValue}</p>";
+                // แสดงรูปร่างของบุคคลอย่างหนึ่ง ซึ่งอ้างอิงจากค่า BMI
+                if ($BMIValue < 18.5) {
+                    echo "<p>รูปร่าง: ผอม</p>";
+                } elseif ($BMIValue >= 18.5 && $BMIValue < 25) {
+                    echo "<p>รูปร่าง: ปกติ</p>";
+                } elseif ($BMIValue >= 25 && $BMIValue < 30) {
+                    echo "<p>รูปร่าง: ท้วม</p>";
+                } else {
+                    echo "<p>รูปร่าง: อ้วน</p>";
+                }
+            }
+            ?>
         </div>
     </form>
 </body>
